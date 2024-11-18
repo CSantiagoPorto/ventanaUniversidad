@@ -13,18 +13,33 @@ import javax.swing.JTextPane;
 import java.awt.Toolkit;
 import javax.swing.ImageIcon;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
-public class ventanaLogin extends JFrame {
+public class ventanaLogin extends JFrame implements ActionListener{
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JPasswordField jpfContraseña;
+	private JTextPane tfUsuario;
+	private JLabel labelUsuario;
+	private JLabel labelContraseña;
+	private JLabel labelCargo;
+	private JComboBox cbCargo;
+	private JButton btnLimpiar;
+	private JButton btnEntrar;
+	private JButton btnSalir;
+	private JLabel lblImagen;
+	Usuario usuario =new Usuario("a","uem","alumno");
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -41,8 +56,9 @@ public class ventanaLogin extends JFrame {
 	 * Create the frame.
 	 */
 	public ventanaLogin() {
+		setResizable(false);
 		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Iri\\Documents\\DAM\\Eclipse\\Ventana Universidad\\src\\resources\\ff808081718154220171839c496f0200-large.png"));
-		setTitle("Componentes Gráficos");
+		setTitle("Ventana de Inicio");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -51,25 +67,28 @@ public class ventanaLogin extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JButton btnLimpiar = new JButton("LIMPIAR");
+		btnLimpiar = new JButton("LIMPIAR");
+		btnLimpiar.addActionListener(this);
 		btnLimpiar.setBounds(117, 232, 85, 21);
 		contentPane.add(btnLimpiar);
 		
-		JLabel labelUsuario = new JLabel("USUARIO");
+		labelUsuario = new JLabel("USUARIO");
 		labelUsuario.setBounds(22, 62, 57, 13);
 		contentPane.add(labelUsuario);
 		
-		JLabel labelContraseña = new JLabel("CONTRASEÑA");
+		labelContraseña = new JLabel("CONTRASEÑA");
 		labelContraseña.setBackground(Color.BLACK);
 		labelContraseña.setForeground(new Color(0, 0, 0));
 		labelContraseña.setBounds(22, 102, 85, 13);
 		contentPane.add(labelContraseña);
 		
-		JButton btnEntrar = new JButton("ENTRAR");
+		btnEntrar = new JButton("ENTRAR");
+		btnEntrar.addActionListener(this);
 		btnEntrar.setBounds(246, 232, 85, 21);
 		contentPane.add(btnEntrar);
 		
-		JButton btnSalir = new JButton("SALIR");
+		btnSalir = new JButton("SALIR");
+		btnSalir.addActionListener(this);
 		btnSalir.setBounds(341, 232, 85, 21);
 		contentPane.add(btnSalir);
 		
@@ -78,21 +97,83 @@ public class ventanaLogin extends JFrame {
 		jpfContraseña.setBounds(117, 98, 97, 21);
 		contentPane.add(jpfContraseña);
 		
-		JLabel labelCargo = new JLabel("CARGO");
+		labelCargo = new JLabel("CARGO");
 		labelCargo.setBounds(23, 147, 45, 13);
 		contentPane.add(labelCargo);
 		
-		JTextPane tfUsuario = new JTextPane();
+		tfUsuario = new JTextPane();
 		tfUsuario.setBounds(117, 56, 97, 19);
 		contentPane.add(tfUsuario);
 		
-		JLabel lblImagen = new JLabel("");
+		lblImagen = new JLabel("");
 		lblImagen.setIcon(new ImageIcon("C:\\Users\\Iri\\Documents\\DAM\\Eclipse\\Ventana Universidad\\src\\resources\\file(2).png"));
 		lblImagen.setBounds(241, 48, 185, 71);
 		contentPane.add(lblImagen);
 		
-		JComboBox cbCargo = new JComboBox();
+		cbCargo = new JComboBox();
+		cbCargo.setToolTipText("");
 		cbCargo.setBounds(117, 143, 97, 21);
+		cbCargo.addItem("Seleccione");
+		cbCargo.addItem("Alumno");
+		cbCargo.addItem("Profesor");
 		contentPane.add(cbCargo);
 	}
+	public JTextPane getTfUsuario() {
+		return tfUsuario;
+	}
+	public JLabel getLabelUsuario() {
+		return labelUsuario;
+	}
+	public JLabel getLabelContraseña() {
+		return labelContraseña;
+	}
+	public JLabel getLabelCargo() {
+		return labelCargo;
+	}
+	public JPasswordField getJpfContraseña() {
+		return jpfContraseña;
+	}
+	public JComboBox getCbCargo() {
+		return cbCargo;
+	}
+	public JButton getBtnLimpiar() {
+		return btnLimpiar;
+	}
+	public JButton getBtnEntrar() {
+		return btnEntrar;
+	}
+	public JButton getBtnSalir() {
+		return btnSalir;
+	}
+	public JLabel getLblImagen() {
+		return lblImagen;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object ob = e.getSource();
+	    if (ob.equals(btnSalir)) {
+	        System.exit(EXIT_ON_CLOSE);
+	    } 
+	    else if (ob.equals(btnEntrar)) { 
+	        if (tfUsuario.getText().equals("") || jpfContraseña.getPassword().length==0) {
+	            JOptionPane.showMessageDialog(null, "Valores vacios");
+	        } 
+	        else if (tfUsuario.getText().equals(usuario.getUsuario()) && String.valueOf(jpfContraseña.getPassword()).equals(usuario.getContraseña())) {
+	            // String.valueOf lo estoy usando para pasar a String la contraseña, porque .getPassword() devuelve char[]
+	            JOptionPane.showMessageDialog(null, "Bienvenid@ a la aplicación");
+	            tfUsuario.setText("");
+	            jpfContraseña.setText("");
+	        } 
+	        else {
+	            JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos.");
+	        }
+	    } 
+	    else if (ob.equals(btnLimpiar)) {
+	        tfUsuario.setText("");
+	        jpfContraseña.setText("");
+	        cbCargo.setSelectedIndex(0); 
+	    }
+	}//CIERRA EL MÉTODO
+	
 }
