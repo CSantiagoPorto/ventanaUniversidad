@@ -157,11 +157,11 @@ public class ventanaLogin extends JFrame implements ActionListener{
 	    } 
 	    else if (ob.equals(btnEntrar)) { 
 	        if (tfUsuario.getText().equals("") || jpfContraseña.getPassword().length==0) {
-	            JOptionPane.showMessageDialog(null, "Valores vacios");
+	            JOptionPane.showMessageDialog(null, "Valores vacios");//Muestra una ventana con este mensaje
 	        } 
 	        else if (tfUsuario.getText().equals(usuario.getUsuario()) && String.valueOf(jpfContraseña.getPassword()).equals(usuario.getContraseña())) {
 	            // String.valueOf lo estoy usando para pasar a String la contraseña, porque .getPassword() devuelve char[]
-	            JOptionPane.showMessageDialog(null, "Bienvenid@ a la aplicación");
+	            JOptionPane.showMessageDialog(null, "Bienvenido a la aplicación "+ usuario.getUsuario());
 	            tfUsuario.setText("");
 	            jpfContraseña.setText("");
 	        } 
